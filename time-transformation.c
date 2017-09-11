@@ -21,7 +21,7 @@ int main(int argc, char const *argv[])
 	struct tm *tm0 =  gmtime(&time0);
 	int *date = gmtime2(time0);
 	printf("%d-%d-%d %d:%d:%d\n", tm0->tm_year+1900, tm0->tm_mon+1, tm0->tm_mday,
-        tm0->tm_hour, tm0->tm_min, tm0->tm_sec);
+		tm0->tm_hour, tm0->tm_min, tm0->tm_sec);
 	free(date);
 	return 0;
 }
@@ -32,35 +32,35 @@ char* gmtime2(unsigned long second0)
 	int *date_in_year;
 	int year_circle, circle_second_left, year_second_left;
 	int date[6];
-    year_circle = second0 / YEAR_CIRCLE_SECOND;
-    circle_second_left = second0 % YEAR_CIRCLE_SECOND;
-    date[0] = 1970 + year_circle * 4;
-    if (circle_second_left >= COMMON_YEAR_SECOND*2 + LEAP_YEAR_SECOND*1) //common year
-    {
-    	year_second_left = circle_second_left - (COMMON_YEAR_SECOND*2 + LEAP_YEAR_SECOND*1);
-    	date[0] += 3;
-    	date_in_year = Find_date_from_second(year_second_left, 0);
-    }
-    else if (circle_second_left >= COMMON_YEAR_SECOND*2) //leap year
-    {
-    	year_second_left = circle_second_left - COMMON_YEAR_SECOND*2;
-    	date[0] += 2;
-    	date_in_year = Find_date_from_second(year_second_left, 1);
-    }
-    else if (circle_second_left >= COMMON_YEAR_SECOND) //common year
-    {
-    	year_second_left = circle_second_left - COMMON_YEAR_SECOND;
-    	date[0] += 1;
-    	date_in_year = Find_date_from_second(year_second_left, 0);
-    }
-    else //common year
-    {
-        year_second_left = circle_second_left;
-        date_in_year = Find_date_from_second(year_second_left, 0);
-    }
+	year_circle = second0 / YEAR_CIRCLE_SECOND;
+	circle_second_left = second0 % YEAR_CIRCLE_SECOND;
+	date[0] = 1970 + year_circle * 4;
+	if (circle_second_left >= COMMON_YEAR_SECOND*2 + LEAP_YEAR_SECOND*1) //common year
+	{
+		year_second_left = circle_second_left - (COMMON_YEAR_SECOND*2 + LEAP_YEAR_SECOND*1);
+		date[0] += 3;
+		date_in_year = Find_date_from_second(year_second_left, 0);
+	}
+	else if (circle_second_left >= COMMON_YEAR_SECOND*2) //leap year
+	{
+		year_second_left = circle_second_left - COMMON_YEAR_SECOND*2;
+		date[0] += 2;
+		date_in_year = Find_date_from_second(year_second_left, 1);
+	}
+	else if (circle_second_left >= COMMON_YEAR_SECOND) //common year
+	{
+		year_second_left = circle_second_left - COMMON_YEAR_SECOND;
+		date[0] += 1;
+		date_in_year = Find_date_from_second(year_second_left, 0);
+	}
+	else //common year
+	{
+		year_second_left = circle_second_left;
+		date_in_year = Find_date_from_second(year_second_left, 0);
+	}
 
-    memcpy(&date[1], date_in_year, 5 * sizeof(int));
-    free(date_in_year);
+	memcpy(&date[1], date_in_year, 5 * sizeof(int));
+	free(date_in_year);
 	sprintf(date2, "%d-%d-%d %d:%d:%d", date[0], date[1], date[2], date[3], date[4], date[5]);
 	printf("%s\n", date2);
 	return date2;
